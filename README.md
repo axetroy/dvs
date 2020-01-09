@@ -6,9 +6,9 @@
 
 ## Docker-based Virtual System
 
-`dvs` is a command-line tool for manage Deno versions.
+`dvs` is a command-line tool for creating isolated sandbox
 
-Focus on the simplest way to manage versions.
+Required: Docker
 
 Features:
 
