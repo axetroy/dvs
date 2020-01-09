@@ -23,8 +23,7 @@ Features:
 $ dvs
 
 # run command in the linux sandbox
-$ dvs run npm run build
-deno v0.25.0
+$ dvs run ls -lh
 
 # Run the specified sandbox with Docker Image's name
 $ dvs --image node:latest node --version
