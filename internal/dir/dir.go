@@ -25,7 +25,7 @@ func init() {
 		err = e
 		return
 	} else {
-		CacheDir = path.Join(c, "dvm")
+		CacheDir = path.Join(c, "dvs")
 
 		if e := fs.EnsureDir(CacheDir); e != nil {
 			err = e

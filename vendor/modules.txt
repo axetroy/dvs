@@ -3,9 +3,6 @@ github.com/Microsoft/go-winio
 github.com/Microsoft/go-winio/pkg/guid
 # github.com/VividCortex/ewma v1.1.1
 github.com/VividCortex/ewma
-# github.com/axetroy/dvm v1.0.1
-github.com/axetroy/dvm/internal/core
-github.com/axetroy/dvm/internal/fs
 # github.com/cheggaaa/pb/v3 v3.0.4
 github.com/cheggaaa/pb/v3
 github.com/cheggaaa/pb/v3/termutil
