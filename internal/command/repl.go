@@ -1,6 +1,7 @@
 package command
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 
@@ -22,6 +23,39 @@ func Repl(option *ReplOption) error {
 
 	if err != nil {
 		return err
+	}
+
+	images, err := cli.ImageList(ctx, types.ImageListOptions{
+		All: true,
+	})
+
+	if err != nil {
+		return err
+	}
+
+	hasImageExist := false
+
+	targetImg := ImageParser(option.Image)
+
+	for _, r := range images {
+		for _, v := range r.RepoTags {
+			img := ImageParser(v)
+
+			if img.Name == targetImg.Name && img.Tag == targetImg.Tag {
+				hasImageExist = true
+			}
+		}
+	}
+
+	if hasImageExist == false {
+		fmt.Printf("Pulling image %v\n", option.Image)
+		_, err := cli.ImagePull(ctx, "docker.io/library/"+option.Image, types.ImagePullOptions{
+			All: true,
+		})
+
+		if err != nil {
+			return err
+		}
 	}
 
 	cwd, err := os.Getwd()

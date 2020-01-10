@@ -1,8 +1,10 @@
 package command
 
 import (
+	"fmt"
 	"io"
 	"os"
+	"strings"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
@@ -15,6 +17,29 @@ type RunOption struct {
 	Image string // 运行的镜像
 }
 
+type Image struct {
+	Name string
+	Tag  string
+}
+
+func ImageParser(image string) Image {
+	arr := strings.Split(image, ":")
+
+	name := arr[0]
+	var tag string
+
+	if len(arr) > 1 {
+		tag = arr[1]
+	} else {
+		tag = "latest"
+	}
+
+	return Image{
+		Name: name,
+		Tag:  tag,
+	}
+}
+
 func Run(command []string, option *RunOption) error {
 	ctx := context.Background()
 
@@ -24,11 +49,36 @@ func Run(command []string, option *RunOption) error {
 		return err
 	}
 
-	//reader, err := cli.ImagePull(ctx, "docker.io/library/alpine", types.ImagePullOptions{})
-	//if err != nil {
-	//	panic(err)
-	//}
-	//io.Copy(os.Stdout, reader)
+	images, err := cli.ImageList(ctx, types.ImageListOptions{
+		All: true,
+	})
+
+	if err != nil {
+		return err
+	}
+
+	hasImageExist := false
+
+	targetImg := ImageParser(option.Image)
+
+	for _, r := range images {
+		for _, v := range r.RepoTags {
+			img := ImageParser(v)
+
+			if img.Name == targetImg.Name && img.Tag == targetImg.Tag {
+				hasImageExist = true
+			}
+		}
+	}
+
+	if hasImageExist == false {
+		fmt.Printf("Pulling image %v\n", option.Image)
+		_, err := cli.ImagePull(ctx, "docker.io/library/"+option.Image, types.ImagePullOptions{})
+
+		if err != nil {
+			return err
+		}
+	}
 
 	cwd, err := os.Getwd()
 
