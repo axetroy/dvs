@@ -26,7 +26,7 @@ $ dvs
 $ dvs run ls -lh
 
 # Run the specified sandbox with Docker Image's name
-$ dvs --image node:latest node --version
+$ dvs --image node:latest run node --version
 ```
 
 ### Installation

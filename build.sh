@@ -3,10 +3,7 @@
 # Reference:
 # https://github.com/golang/go/blob/master/src/go/build/syslist.go
 os_archs=(
-    darwin/386
     darwin/amd64
-    darwin/arm
-    darwin/arm64
     linux/386
     linux/amd64
     linux/arm

@@ -46,10 +46,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           files: |
-            bin/dvs_darwin_386.tar.gz
             bin/dvs_darwin_amd64.tar.gz
-            bin/dvs_darwin_arm.tar.gz
-            bin/dvs_darwin_arm64.tar.gz
             bin/dvs_linux_386.tar.gz
             bin/dvs_linux_amd64.tar.gz
             bin/dvs_linux_arm.tar.gz
