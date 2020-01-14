@@ -4,7 +4,6 @@ import (
 	"archive/tar"
 	"compress/gzip"
 	"fmt"
-	"github.com/axetroy/dvs/internal/dir"
 	"io"
 	"os"
 	"os/exec"
@@ -13,6 +12,7 @@ import (
 	"runtime"
 	"strings"
 
+	"github.com/axetroy/dvs/internal/dir"
 	"github.com/axetroy/dvs/internal/util"
 	Version "github.com/axetroy/dvs/internal/version"
 	"github.com/fatih/color"
