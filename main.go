@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/fatih/color"
 	"os"
 
 	"github.com/axetroy/dvs/internal/command"
 	"github.com/axetroy/dvs/internal/dir"
 	"github.com/axetroy/dvs/internal/version"
+	"github.com/fatih/color"
 	"github.com/urfave/cli/v2"
 )
 
@@ -41,6 +41,16 @@ func main() {
 				return command.Run(c.Args().Slice(), &command.RunOption{
 					Image: c.String("image"),
 				})
+			},
+		},
+		{
+			Name:  "upgrade",
+			Usage: "Upgrade dvs",
+			Flags: []cli.Flag{
+				&cli.BoolFlag{Name: "force", Aliases: []string{"f"}, Usage: "Force upgrade", Value: false},
+			},
+			Action: func(c *cli.Context) error {
+				return command.Upgrade(c.Args().First(), c.Bool("force"))
 			},
 		},
 	}
