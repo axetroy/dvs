@@ -69,10 +69,6 @@ func NewVirtualMachine(option *Options) (*VirtualMachine, error) {
 		if err := cmd.Run(); err != nil {
 			return nil, err
 		}
-
-		if err := cmd.Wait(); err != nil {
-			return nil, err
-		}
 	}
 
 	containerWorkingDir := "/root/app"
