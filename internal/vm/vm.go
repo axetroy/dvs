@@ -2,11 +2,14 @@ package vm
 
 import (
 	"context"
+	"errors"
 	"io"
 	"os"
 	"os/exec"
+	"os/signal"
 	"runtime"
 	"sync"
+	"syscall"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
@@ -14,10 +17,15 @@ import (
 	"github.com/docker/docker/client"
 )
 
+type State = string
+
 type VirtualMachine struct {
+	sync.Mutex
 	id     string          // docker container id
 	ctx    context.Context // context
 	client *client.Client  // docker client
+	quit   chan os.Signal  // exit signal
+	state  State           // state
 }
 
 type Options struct {
@@ -25,6 +33,13 @@ type Options struct {
 	Image    string    // the image name you want to run
 	Commands *[]string // the COMMAND for image
 }
+
+const (
+	StateInit     State = "init"
+	StateStarting State = "starting"
+	StateStarted  State = "started"
+	StateDestroy  State = "destroy"
+)
 
 func isImageExist(cli *client.Client, ctx context.Context, image string) (bool, error) {
 	images, err := cli.ImageList(ctx, types.ImageListOptions{
@@ -105,13 +120,37 @@ func NewVirtualMachine(option *Options) (*VirtualMachine, error) {
 		id:     resp.ID,
 		ctx:    ctx,
 		client: cli,
+		state:  StateInit,
 	}, nil
 }
 
 func (v *VirtualMachine) Start() error {
+	v.Lock()
+
+	if v.state != StateInit {
+		return errors.New("container state is not init")
+	}
+
+	v.state = StateStarting
+
+	defer v.Unlock()
+
 	if err := v.client.ContainerStart(v.ctx, v.id, types.ContainerStartOptions{}); err != nil {
 		return err
 	}
+
+	v.state = StateStarted
+
+	v.quit = make(chan os.Signal)
+
+	signal.Notify(v.quit, syscall.SIGKILL, syscall.SIGTERM, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
+
+	go func() {
+		<-v.quit
+		_ = v.Destroy()
+
+		os.Exit(1)
+	}()
 
 	return nil
 }
@@ -184,13 +223,19 @@ func (v *VirtualMachine) Attach() error {
 
 // wait machine ready
 func (v *VirtualMachine) Destroy() error {
-	err := v.client.ContainerRemove(v.ctx, v.id, types.ContainerRemoveOptions{
-		Force: true,
-	})
+	v.Lock()
 
-	if err != nil {
+	defer v.Unlock()
+
+	defer signal.Stop(v.quit)
+
+	if err := v.client.ContainerRemove(v.ctx, v.id, types.ContainerRemoveOptions{
+		Force: true,
+	}); err != nil {
 		return err
 	}
+
+	v.state = StateDestroy
 
 	return nil
 }
