@@ -38,30 +38,29 @@ jobs:
 #          go get golang.org/x/tools/cmd/cover
 #          go get github.com/mattn/goveralls
 #          /home/runner/go/bin/goveralls -coverprofile=coverage.out -service=github-action -repotoken ${{ secrets.COVERALLS_TOKEN }}
-
- release:
-  if: startsWith(github.ref, 'refs/tags/') && github.repository == 'axetroy/dvs'
-  needs: build
-  runs-on: ubuntu-latest
-  steps:
-    - uses: softprops/action-gh-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      with:
-        files: |
-          bin/dvs_darwin_amd64.tar.gz
-          bin/dvs_linux_386.tar.gz
-          bin/dvs_linux_amd64.tar.gz
-          bin/dvs_linux_arm.tar.gz
-          bin/dvs_linux_arm64.tar.gz
-          bin/dvs_linux_mips.tar.gz
-          bin/dvs_linux_mips64.tar.gz
-          bin/dvs_linux_mips64le.tar.gz
-          bin/dvs_linux_mipsle.tar.gz
-          bin/dvs_linux_ppc64.tar.gz
-          bin/dvs_linux_ppc64le.tar.gz
-          bin/dvs_linux_s390x.tar.gz
-          bin/dvs_windows_386.tar.gz
-          bin/dvs_windows_amd64.tar.gz
-          bin/dvs_windows_arm.tar.gz
-        draft: false
+  release:
+    if: startsWith(github.ref, 'refs/tags/') && github.repository == 'axetroy/dvs'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          files: |
+            bin/dvs_darwin_amd64.tar.gz
+            bin/dvs_linux_386.tar.gz
+            bin/dvs_linux_amd64.tar.gz
+            bin/dvs_linux_arm.tar.gz
+            bin/dvs_linux_arm64.tar.gz
+            bin/dvs_linux_mips.tar.gz
+            bin/dvs_linux_mips64.tar.gz
+            bin/dvs_linux_mips64le.tar.gz
+            bin/dvs_linux_mipsle.tar.gz
+            bin/dvs_linux_ppc64.tar.gz
+            bin/dvs_linux_ppc64le.tar.gz
+            bin/dvs_linux_s390x.tar.gz
+            bin/dvs_windows_386.tar.gz
+            bin/dvs_windows_amd64.tar.gz
+            bin/dvs_windows_arm.tar.gz
+          draft: false
