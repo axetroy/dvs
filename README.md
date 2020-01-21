@@ -1,3 +1,5 @@
+English | [中文简体](README_zh-CN.md)
+
 [![Build Status](https://github.com/axetroy/dvs/workflows/test/badge.svg)](https://github.com/axetroy/dvs/actions)
 [![Go Report Card](https://goreportcard.com/badge/github.com/axetroy/dvs)](https://goreportcard.com/report/github.com/axetroy/dvs)
 ![Latest Version](https://img.shields.io/github/v/release/axetroy/dvs.svg)
