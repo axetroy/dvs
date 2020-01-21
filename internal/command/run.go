@@ -7,7 +7,7 @@ import (
 )
 
 type RunOption struct {
-	Image string // 运行的镜像
+	Image string
 }
 
 func Run(command []string, option *RunOption) error {
