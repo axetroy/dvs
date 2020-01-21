@@ -12,7 +12,7 @@ Required: Docker
 
 Features:
 
-- [x] Cross-platform support (Windows is coming soon)
+- [x] Cross-platform support
 - [x] Creating an isolated Linux environment based on a sandbox
 - [x] No residue. The container is deleted every time the process exits, don't worry it will fill up your disk space
 
