@@ -29,6 +29,14 @@ func Upgrade(version string, force bool) error {
 		tarFilepath = path.Join(cacheDir, tarFilename)
 	)
 
+	if version == "" || version == "latest" {
+		if v, err := Version.GetLatestRemoteVersion(); err != nil {
+			return errors.Wrap(err, "get latest version fail")
+		} else {
+			version = v
+		}
+	}
+
 	downloadURL := fmt.Sprintf("https://github.com/axetroy/dvs/releases/download/%s/%s", version, tarFilename)
 
 	defer func() {
