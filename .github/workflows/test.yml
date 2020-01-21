@@ -41,7 +41,8 @@ jobs:
 
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: job.status == 'success' && startsWith(matrix.os, 'ubuntu') && startsWith(github.ref, 'refs/tags/') && github.repository == 'axetroy/dvs'
+        if: startsWith(github.ref, 'refs/tags/') && github.repository == 'axetroy/dvs'
+        needs: test
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
@@ -61,4 +62,4 @@ jobs:
             bin/dvs_windows_386.tar.gz
             bin/dvs_windows_amd64.tar.gz
             bin/dvs_windows_arm.tar.gz
-          draft: true
+          draft: false
