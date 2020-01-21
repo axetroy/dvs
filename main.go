@@ -28,8 +28,8 @@ func main() {
 		&cli.StringFlag{
 			Name:    "image",
 			Aliases: []string{"i"},
-			Usage:   "Specifying the running image",
-			Value:   "alpine", // default image
+			Usage:   "Specifying the running image. eg. ubuntu:19.10",
+			Value:   "alpine:3.11", // default image
 		},
 	}
 

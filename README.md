@@ -6,13 +6,13 @@
 
 ## Docker-based Virtual System
 
-`dvs` is a command-line tool for creating isolated sandbox
+`dvs` is a command-line tool for creating an isolated sandbox
 
 Required: Docker
 
 Features:
 
-- [x] Cross platform support (Windows is coming soon)
+- [x] Cross-platform support (Windows is coming soon)
 - [x] Creating an isolated Linux environment based on a sandbox
 - [x] No residue. The container is deleted every time the process exits, don't worry it will fill up your disk space
 
@@ -31,7 +31,7 @@ $ dvs --image node:latest run node --version
 
 ### Installation
 
-If you are using Linux/MacOS. you can install it with following command:
+If you are using Linux/macOS. you can install it with the following command:
 
 ```shell
 # install latest version
