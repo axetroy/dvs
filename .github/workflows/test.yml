@@ -39,6 +39,7 @@ jobs:
 #          go get github.com/mattn/goveralls
 #          /home/runner/go/bin/goveralls -coverprofile=coverage.out -service=github-action -repotoken ${{ secrets.COVERALLS_TOKEN }}
   release:
+    name: Release to Github
     if: startsWith(github.ref, 'refs/tags/') && github.repository == 'axetroy/dvs'
     needs: build
     runs-on: ubuntu-latest
