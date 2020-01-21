@@ -21,13 +21,13 @@ Features:
 ### Usage
 
 ```bash
-# linux repl
+# 运行 Linux 的 repl
 $ dvs
 
-# run command in the linux sandbox
+# 在 Linux 沙盒中运行命令
 $ dvs run ls -lh
 
-# Run the specified sandbox with Docker Image's name
+# 运行指定的 Docker 镜像
 $ dvs --image node:latest run node --version
 ```
 
